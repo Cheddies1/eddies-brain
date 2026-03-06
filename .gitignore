@@ -1,0 +1,22 @@
+@"
+# Ignore everything by default
+*
+
+# Keep git control files
+!.gitignore
+!.gitattributes
+!.editorconfig
+
+# Keep automation source
+!auto_generate_notes.py
+!README.md
+
+# Keep prompt/spec files if you want them versioned
+!GEMINI.md
+
+# Optional future files
+!watch_vibe.py
+!query_brain.py
+!requirements.txt
+!pyproject.toml
+"@ | Set-Content .gitignore
