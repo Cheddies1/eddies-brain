@@ -100,9 +100,14 @@ Use this structure:
 # Meeting: [Title]
 
 Date:  
-Participants:  
+Participants:
+- List identifiable speakers or meeting participants.
+- If names appear in the transcript, infer participants from context.
+- Use the organisational context list where applicable.  
 Source file:  
 Tags:  
+Audio: [[<same filename>.wav]]
+Transcript: [[<same filename>.txt]]
 
 Impact Level:  
 Commercial Exposure:  

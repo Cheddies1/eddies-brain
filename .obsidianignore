@@ -1,0 +1,4 @@
+*.wav
+*.txt
+*.py
+__pycache__/

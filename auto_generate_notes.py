@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -9,21 +10,50 @@ from pathlib import Path
 WORKING_DIR = Path(__file__).resolve().parent
 INSTRUCTIONS_FILE = WORKING_DIR / "GEMINI.md"
 GEMINI_PATH = r"C:\Users\EddieJohnson\AppData\Roaming\npm\gemini.ps1"
+MD_DIR = WORKING_DIR / "md"
+TXT_DIR = WORKING_DIR / "txt"
+WAV_DIR = WORKING_DIR / "wav"
 
 
 def find_transcripts() -> list[Path]:
     return sorted(path for path in WORKING_DIR.glob("*.txt") if path.is_file())
 
 
+def ensure_output_dirs() -> None:
+    for path in (MD_DIR, TXT_DIR, WAV_DIR):
+        path.mkdir(parents=True, exist_ok=True)
+
+
+def display_path(path: Path) -> str:
+    relative = path.relative_to(WORKING_DIR)
+    return f".\\{str(relative).replace('/', '\\')}"
+
+
+def markdown_output_path(transcript: Path) -> Path:
+    return MD_DIR / f"{transcript.stem}.md"
+
+
+def transcript_output_path(transcript: Path) -> Path:
+    return TXT_DIR / transcript.name
+
+
+def audio_source_path(transcript: Path) -> Path:
+    return WORKING_DIR / f"{transcript.stem}.wav"
+
+
+def audio_output_path(transcript: Path) -> Path:
+    return WAV_DIR / f"{transcript.stem}.wav"
+
+
 def markdown_exists(transcript: Path) -> bool:
-    return transcript.with_suffix(".md").exists()
+    return markdown_output_path(transcript).exists()
 
 
 def build_prompt(filename: str, transcript_text: str) -> str:
     return (
         "Using the instructions in GEMINI.md in the current folder, analyse "
-        f"the transcript file {filename} and generate the meeting notes "
-        "markdown file with the same base name. Return only the markdown "
+        f"the transcript file {filename} and generate the markdown content "
+        "for a meeting note. Return only the markdown "
         "content of the note.\n\n"
         f"Transcript filename: {filename}\n\n"
         "Transcript content:\n"
@@ -39,7 +69,15 @@ def extract_markdown(output: str) -> str | None:
     return None
 
 
+def move_file(source: Path, destination: Path) -> None:
+    if destination.exists():
+        raise FileExistsError(f"Destination already exists: {destination.name}")
+    shutil.move(str(source), str(destination))
+
+
 def run_gemini(transcript: Path) -> bool:
+    ensure_output_dirs()
+
     try:
         transcript_text = transcript.read_text(encoding="utf-8")
     except OSError as error:
@@ -121,14 +159,55 @@ def run_gemini(transcript: Path) -> bool:
         print(f"No markdown heading found in Gemini output for {transcript.name}", file=sys.stderr)
         return False
 
-    output_path = transcript.with_suffix(".md")
+    output_path = markdown_output_path(transcript)
+    transcript_destination = transcript_output_path(transcript)
+    audio_source = audio_source_path(transcript)
+    audio_destination = audio_output_path(transcript)
+
     try:
         output_path.write_text(markdown, encoding="utf-8")
     except OSError as error:
         print(f"Failed to write {output_path.name}: {error}", file=sys.stderr)
         return False
 
-    print(f"Written: {output_path.name}")
+    transcript_moved = False
+    audio_moved = False
+
+    try:
+        move_file(transcript, transcript_destination)
+        transcript_moved = True
+
+        if audio_source.exists():
+            move_file(audio_source, audio_destination)
+            audio_moved = True
+    except OSError as error:
+        print(f"Failed: {transcript.name}: {error}", file=sys.stderr)
+
+        if audio_moved and audio_destination.exists():
+            try:
+                move_file(audio_destination, audio_source)
+            except OSError as rollback_error:
+                print(f"Rollback failed for {audio_destination.name}: {rollback_error}", file=sys.stderr)
+
+        if transcript_moved and transcript_destination.exists():
+            try:
+                move_file(transcript_destination, transcript)
+            except OSError as rollback_error:
+                print(
+                    f"Rollback failed for {transcript_destination.name}: {rollback_error}",
+                    file=sys.stderr,
+                )
+
+        try:
+            output_path.unlink(missing_ok=True)
+        except OSError as rollback_error:
+            print(f"Rollback failed for {output_path.name}: {rollback_error}", file=sys.stderr)
+        return False
+
+    print(f"Written: {display_path(output_path)}")
+    print(f"Moved transcript: {display_path(transcript_destination)}")
+    if audio_moved:
+        print(f"Moved audio: {display_path(audio_destination)}")
     return True
 
 
@@ -136,6 +215,8 @@ def main() -> int:
     if not INSTRUCTIONS_FILE.exists():
         print("Missing required file: GEMINI.md", file=sys.stderr)
         return 1
+
+    ensure_output_dirs()
 
     transcripts = find_transcripts()
     if not transcripts:

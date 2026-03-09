@@ -1,22 +1,26 @@
-@"
-# Ignore everything by default
-*
+# Python
+__pycache__/
+*.pyc
 
-# Keep git control files
-!.gitignore
-!.gitattributes
-!.editorconfig
+# Generated pipeline output
+wav/
+txt/
+md/
 
-# Keep automation source
-!auto_generate_notes.py
-!README.md
+# Logs
+*.log
 
-# Keep prompt/spec files if you want them versioned
-!GEMINI.md
+# OS junk
+.DS_Store
+Thumbs.db
 
-# Optional future files
-!watch_vibe.py
-!query_brain.py
-!requirements.txt
-!pyproject.toml
-"@ | Set-Content .gitignore
+# Virtual environments
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Local config
+.env
