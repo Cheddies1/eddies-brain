@@ -13,6 +13,7 @@ import requests
 
 WORKING_DIR = Path(__file__).resolve().parent
 GEMINI_INSTRUCTIONS_FILE = WORKING_DIR / "GEMINI.md"
+INSTRUCTIONS_FILE = GEMINI_INSTRUCTIONS_FILE
 NOTE_PROMPT_FILE = WORKING_DIR / "NOTE_PROMPT.md"
 GEMINI_PATH = r"C:\Users\EddieJohnson\AppData\Roaming\npm\gemini.ps1"
 OLLAMA_URL = "http://localhost:11434/api/generate"
