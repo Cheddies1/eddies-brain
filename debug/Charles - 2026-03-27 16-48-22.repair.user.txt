@@ -1,0 +1,45 @@
+Transcript filename: Charles - 2026-03-27 16-48-22.txt
+
+Reformat the markdown below into the required meeting-note structure without adding any new facts.
+Return only markdown.
+The output must begin with '# Meeting:'.
+Include these exact required headings:
+## Executive Summary
+## Decisions
+## Action Items
+## Risks / Concerns
+Do not use alternative headings.
+If a required section has no content, include the heading and write '- None identified'.
+Do not invent facts.
+
+--- MARKDOWN TO REFORMAT START ---
+
+# Meeting Notes - Final
+
+* The meeting notes are based on a raw transcript and may not be entirely accurate.
+* The purpose of the meeting was to discuss various topics, including Shell's EV charging issues, Stano's potential role in the Enterprise Solutions Consultant BP, and Adam Myers' involvement in the Verifone onboarding piece.
+
+**Key Points:**
+
+1. Shell is experiencing a 75% failure rate with EV charging due to cards not being accepted.
+2. Stano may be a good fit for the Enterprise Solutions Consultant BP role if he can step up and prove himself.
+3. Adam Myers is already making progress in the Verifone onboarding piece and will become Anthony and Ken's best friend in the US time zone.
+
+**Action Items:**
+
+1. Follow up with Tom Ash to confirm his availability to start working on the project with Charles.
+2. Schedule a meeting with Jan to discuss Stano's potential role in the Enterprise Solutions Consultant BP.
+3. Keep an eye on Adam Myers' progress in the Verifone onboarding piece and provide support as needed.
+
+**Next Steps:**
+
+1. Continue to work with Philip to resolve issues related to receipting and find solutions for Germany.
+2. Monitor the situation with Shell's EV charging issues and explore potential opportunities for QuickSuite.
+3. Keep an eye on Stano's progress in his role and consider bringing him into the team once he has proven himself.
+
+**Closing:**
+
+The meeting ended on a positive note, with many action items and next steps discussed. The team is working together to resolve various issues and capitalize on new opportunities.
+
+
+--- MARKDOWN TO REFORMAT END ---

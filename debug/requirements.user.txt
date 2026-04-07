@@ -1,0 +1,26 @@
+Transcript filename: requirements.txt
+
+Return only the final Markdown meeting note.
+Do not include commentary, preamble, explanations, or code fences.
+The note must begin with '# Meeting:' and follow the required meeting-note structure.
+Include these exact required headings:
+## Executive Summary
+## Decisions
+## Action Items
+## Risks / Concerns
+Do not use alternative headings such as Notes, Summary, or Key Points.
+If a required section has no content, include the heading and write '- None identified'.
+Do not invent facts.
+Do not invent participants, owners, dates, deadlines, or decisions.
+Only include people as Participants if they clearly spoke or were explicitly present in this meeting.
+People mentioned but not confirmed present must not be listed as Participants.
+If uncertain, omit or mark the uncertainty explicitly.
+Prefer omission over invention.
+
+--- TRANSCRIPT START ---
+
+requests
+watchdog
+
+
+--- TRANSCRIPT END ---

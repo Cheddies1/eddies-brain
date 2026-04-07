@@ -7,6 +7,11 @@ wav/
 txt/
 md/
 
+# Obsidian vaults
+.obsidian/
+Analysis/.obsidian/
+.obsidianignore
+
 # Logs
 *.log
 

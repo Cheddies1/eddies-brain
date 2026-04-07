@@ -18,6 +18,7 @@ Assume:
 - I do not want generic summaries.
 
 Do not simplify unless I ask you to.
+
 # Aevi Meeting Analysis
 
 ## Purpose
@@ -45,7 +46,7 @@ When using this knowledge base:
    - direct evidence from notes
    - inferred conclusions drawn across multiple notes.
 
-If the user references specific files (e.g. @file.md), prioritise those and limit the scope accordingly.
+If the user references specific files, for example `some-note.md`, prioritise those and limit the scope accordingly.
 
 When analysing notes, the goal is **not to rewrite them** but to extract insight across multiple meetings.
 

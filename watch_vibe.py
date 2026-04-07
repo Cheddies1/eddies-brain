@@ -70,11 +70,16 @@ class TranscriptHandler(FileSystemEventHandler):
             print(f"New transcript detected: {transcript.name}")
 
             if not wait_for_stable_file(transcript):
+                if not transcript.exists() or markdown_exists(transcript):
+                    return
                 print(f"Failed: {transcript.name}", file=sys.stderr)
                 return
 
             if markdown_exists(transcript):
                 print(f"Skipping: {transcript.name} (markdown exists)")
+                return
+
+            if not transcript.exists():
                 return
 
             if not run_gemini(transcript):

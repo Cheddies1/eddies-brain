@@ -1,0 +1,5 @@
+Missing required section: # Meeting:
+Missing required section: ## Executive Summary
+Missing required section: ## Decisions
+Missing required section: ## Action Items
+Missing required section: ## Risks / Concerns

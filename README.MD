@@ -35,7 +35,9 @@ Important behavior:
 - leaves failed WAVs untouched in the root folder
 
 API used:
-- `POST http://127.0.0.1:50564/v1/audio/transcriptions`
+- `POST http://127.0.0.1:56478/v1/audio/transcriptions` by default
+- falls back to `http://127.0.0.1:50564/v1/audio/transcriptions`
+- can be overridden with `SONA_API_URL` or `SONA_BASE_URL`
 - multipart upload with field name `file`
 - expects JSON response with a `text` field
 
@@ -121,7 +123,14 @@ C:\Users\EddieJohnson\AppData\Roaming\npm\gemini.ps1
 - local transcription API available at:
 
 ```text
-http://127.0.0.1:50564
+http://127.0.0.1:56478
+```
+
+- optional override environment variables:
+
+```text
+SONA_API_URL=http://127.0.0.1:56478/v1/audio/transcriptions
+SONA_BASE_URL=http://127.0.0.1:56478
 ```
 
 ## Typical Usage
@@ -180,6 +189,7 @@ The scripts currently log simple status messages such as:
 - `transcribe_wavs.py` is one-shot, not a watcher.
 - `auto_generate_notes.py` depends on Gemini CLI behavior staying compatible with the current prompt-based invocation.
 - The transcription API is assumed to return JSON with a non-empty `text` field.
+- `transcribe_wavs.py` tries the configured Sona endpoint first, then known local fallback ports.
 - Historical files already in the root are not automatically reorganized unless they are actively processed by the scripts.
 
 ## Key Files
